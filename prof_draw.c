@@ -2,9 +2,10 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #endif
-#include <gl/gl.h>
+#include <GL/gl.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "prof.h"
 #include "prof_internal.h"
 

@@ -13,10 +13,15 @@
 
 #ifdef WIN32
   #include "prof_win32.h"
+#elif defined(_POSIX_VERSION) || defined(__unix__) || defined(__APPLE__)
+  #include "prof_posix.h"
 #else
   #error "need to define Prof_get_timestamp() and Prof_Int64"
 #endif
 
+// number of unique zones allowed in the entire application
+// @TODO: remove MAX_PROFILING_ZONES and make it dynamic
+#define MAX_PROFILING_ZONES                512
 
 typedef struct
 {

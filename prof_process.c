@@ -16,9 +16,6 @@
 #define NUM_FRAME_SLOTS                    128
 
 
-// number of unique zones allowed in the entire application
-// @TODO: remove MAX_PROFILING_ZONES and make it dynamic
-#define MAX_PROFILING_ZONES                512
 
 ////////////////////////////////////////////////////////////////////////
 
@@ -31,7 +28,7 @@
 // threshhold for a moving average of an integer to be at zero
 #define INT_ZERO_THRESHHOLD                0.25
 
-Prof_Zone *Prof_zones[MAX_PROFILING_ZONES];
+extern Prof_Zone *Prof_zones[MAX_PROFILING_ZONES];
 
 #ifdef Prof_ZONE_HISTORY
 static float zone_history[MAX_PROFILING_ZONES][NUM_FRAME_SLOTS]; // 256K
@@ -582,7 +579,7 @@ Prof_Report *Prof_create_report(void)
 #endif
 
    if (speedstep_warning)
-      pob->title[1] = _strdup("WARNING: SpeedStep-like timer inconsistencies detected.  Results are unreliable!");
+      pob->title[1] = strdup("WARNING: SpeedStep-like timer inconsistencies detected.  Results are unreliable!");
 
    if (displayed_quantity == Prof_CALL_GRAPH) {
       Prof_Report_Record *r = (Prof_Report_Record *) expand->highlevel;
@@ -634,15 +631,15 @@ Prof_Report *Prof_create_report(void)
       update_cursor = 0;
    }
 
-   pob->header[0] = _strdup("zone");
+   pob->header[0] = strdup("zone");
    if (displayed_quantity == Prof_HIERARCHICAL_TIME) {
-      pob->header[1] = _strdup("hier");
-      pob->header[2] = _strdup("self");
+      pob->header[1] = strdup("hier");
+      pob->header[2] = strdup("self");
    } else {
-      pob->header[1] = _strdup("self");
-      pob->header[2] = _strdup("hier");
+      pob->header[1] = strdup("self");
+      pob->header[2] = strdup("hier");
    }
-   pob->header[3] = _strdup("count");
+   pob->header[3] = strdup("count");
 
    if (cursor < 0) cursor = 0;
    if (cursor >= pob->num_record) cursor = pob->num_record-1;

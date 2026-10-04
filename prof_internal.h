@@ -44,7 +44,7 @@ extern void Prof_init_highlevel();
 extern double Prof_get_time(void);
 
 extern int        Prof_num_zones;
-extern Prof_Zone *Prof_zones[];
+extern Prof_Zone *Prof_zones[MAX_PROFILING_ZONES];
 
 extern Prof_Declare(_global);
 

@@ -11,7 +11,7 @@ Prof_Zone_Stack Prof_dummy2 ;
 Prof_Zone_Stack *Prof_stack = &Prof_dummy2;
 
 int Prof_num_zones;
-Prof_Zone *Prof_zones[];
+Prof_Zone *Prof_zones[MAX_PROFILING_ZONES];
 
 #define MAX_HASH_SIZE     65536   // not unlimited, to catch unbalanced BEGIN/END_PROF
 #define INIT_HASH_SIZE    256     // balance resource usage and avoid initial growth
@@ -162,4 +162,29 @@ static void Prof_init_lowlevel(void)
    {
       Prof_Region(_global)
    }
+}
+
+#include <stdio.h>
+
+void Prof_get_report(prof_report_t *report)
+{
+    if (!report) return;
+    report->nrecords = 0;
+    Prof_Report *pob = Prof_create_report(); 
+
+    int n = pob->num_record;
+    if (n > 512) n = 512;
+
+    for (int i = 0; i < n; ++i) {
+        Prof_Report_Record *rec1 = &pob->record[i];
+        prof_record_t *rec2 = &report->records[i];
+        rec2->indent = rec1->indent;
+        rec2->self = rec1->values[0];
+        rec2->hier = rec1->values[1];
+        rec2->count = rec1->values[2];
+        snprintf(rec2->name, sizeof(rec2->name), "%s", rec1->name);
+        report->nrecords++;
+    }
+
+    Prof_free_report(pob);
 }
