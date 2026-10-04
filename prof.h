@@ -68,6 +68,21 @@ typedef enum
 } Prof_Report_Mode;
 
 extern void Prof_set_report_mode(Prof_Report_Mode e);
+
+typedef struct prof_record {
+    char name[256];
+    int indent;
+    float self, hier, count, heat;
+    unsigned int flags;
+} prof_record_t;
+
+typedef struct prof_report {
+    prof_record_t records[512];
+    int nrecords;
+} prof_report_t;
+
+extern void Prof_get_report(prof_report_t *report);
+
 extern void Prof_move_cursor(int delta);
 extern void Prof_select(void);
 extern void Prof_select_parent(void);
