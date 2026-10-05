@@ -16,11 +16,13 @@ iprof_deps = cc.find_library('m')
 
 iprof = library('iprof', iprof_files, dependencies : iprof_deps)
 
-example_deps = [cc.find_library('raylib'), cc.find_library('m')]
-if sys == 'windows'
-  example_deps += cc.find_library('opengl32')
+if get_option('iprof_build_example')
+  example_deps = [cc.find_library('raylib'), cc.find_library('m')]
+  if sys == 'windows'
+    example_deps += cc.find_library('opengl32')
+  endif
+  if sys == 'linux'
+    example_deps += [ cc.find_library('X11'), cc.find_library('GL') ]
+  endif
+  example = executable('example', 'example.c', dependencies : example_deps, link_with : iprof)
 endif
-if sys == 'linux'
-  example_deps += [ cc.find_library('X11'), cc.find_library('GL') ]
-endif
-example = executable('example', 'example.c', dependencies : example_deps, link_with : iprof)
