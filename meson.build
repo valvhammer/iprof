@@ -21,6 +21,10 @@ iprof_dep = declare_dependency(
   dependencies : iprof_deps,
 )
 
+if meson.version().version_compare('>= 0.54.0')
+    meson.override_dependency('iprof', iprof_dep)
+endif
+
 if get_option('iprof_build_example')
   example_deps = [cc.find_library('raylib'), cc.find_library('m')]
   if sys == 'windows'
