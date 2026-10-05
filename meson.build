@@ -16,6 +16,11 @@ iprof_deps = cc.find_library('m')
 
 iprof = library('iprof', iprof_files, dependencies : iprof_deps)
 
+iprof_dep = declare_dependency(
+  link_with : iprof,
+  dependencies : iprof_deps,
+)
+
 if get_option('iprof_build_example')
   example_deps = [cc.find_library('raylib'), cc.find_library('m')]
   if sys == 'windows'
