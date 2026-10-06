@@ -18,7 +18,7 @@ iprof = library('iprof', iprof_files, dependencies : iprof_deps)
 
 iprof_dep = declare_dependency(
   link_with : iprof,
-  include_directories : '.',
+  include_directories : include_directories('.'),
   dependencies : iprof_deps,
 )
 
