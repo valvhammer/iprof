@@ -1,7 +1,12 @@
 #ifndef Prof_INC_PROF_WIN32_H
 #define Prof_INC_PROF_WIN32_H
 
-typedef __int64 Prof_Int64;
+#include <stdint.h>
+typedef int64_t Prof_Int64;
+
+#ifndef _MSC_VER
+#include <x86intrin.h>
+#endif
 
 #ifdef __cplusplus
   inline
@@ -12,12 +17,17 @@ typedef __int64 Prof_Int64;
 #endif
       void Prof_get_timestamp(Prof_Int64 *result)
       {
+#ifdef _MSC_VER
          __asm {
             rdtsc;
             mov    ebx, result
             mov    [ebx], eax
             mov    [ebx+4], edx
          }
+#else
+        *result = __rdtsc();
+#endif
+
       }
 
 #endif
